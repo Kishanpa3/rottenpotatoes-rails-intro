@@ -12,6 +12,8 @@ class MoviesController < ApplicationController
 
   def index
     @movies = Movie.all
+    @allRatings = Movie.GetRatingTypes
+    
     sortingOption = params[:sortingOption]
     if(sortingOption == "Title")
       @movies = Movie.order(:title)
@@ -19,6 +21,14 @@ class MoviesController < ApplicationController
     if(sortingOption == "ReleaseDate")
       @movies = Movie.order(:release_date)
     end
+    
+    if(params[:ratings].nil?)
+      @movies = @movies.where(rating: @allRatings)
+    else
+      @movies = @movies.where(rating: params[:ratings].keys)
+    end
+    
+    
   end
 
   def new
