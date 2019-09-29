@@ -22,10 +22,12 @@ class MoviesController < ApplicationController
       @movies = Movie.order(:release_date)
     end
     
+    @selectedRatings = @allRatings
     if(params[:ratings].nil?)
       @movies = @movies.where(rating: @allRatings)
     else
       @movies = @movies.where(rating: params[:ratings].keys)
+      @selectedRatings = params[:ratings].keys
     end
     
     
