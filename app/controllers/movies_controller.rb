@@ -13,6 +13,21 @@ class MoviesController < ApplicationController
   def index
     @movies = Movie.all
     @allRatings = Movie.GetRatingTypes
+    #puts session
+    
+  #  if (params[:sortingOption].nil? && params[:ratings].nil?)
+  #    if(!(session[:sortingOption].nil? && session[:ratings].nil?))
+  #    redirect_to movies_path(:sortingOption => session[:sortingOption], :ratings => session[:ratings])
+  #    end
+  #  end
+    
+    if(params[:sortingOption].nil? && !session[:sortingOption].nil?)
+      params[:sortingOption] = session[:sortingOption]
+    end
+    if(params[:ratings].nil? && !session[:ratings].nil?)
+      params[:ratings] = session[:ratings]
+    end
+
     
     sortingOption = params[:sortingOption]
     if(sortingOption == "Title")
@@ -30,6 +45,9 @@ class MoviesController < ApplicationController
       @selectedRatings = params[:ratings].keys
     end
     
+    
+    session[:ratings] = params[:ratings]
+    session[:sortingOption] = params[:sortingOption]
     
   end
 
